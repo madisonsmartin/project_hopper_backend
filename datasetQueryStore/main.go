@@ -54,11 +54,11 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		//TODO instanciate a new object pb.Dataset{} put in data and return
 		log.Println(data.Name, data.Version)
 	}
-	err = rows.Err()
+	err = resp.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return resp, nil
+	return nil, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
 
