@@ -23,17 +23,6 @@ type store struct {
 }
 
 func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
-	log.Print("query store: query dataset request")
-	return &dspb.Dataset{
-		Name:       data.Name + " but super better",
-		Version:    data.Version,
-		Id:         data.Id,
-		Status:     "created",
-		FileIDs:    nil,
-		DatasetIDs: nil,
-	}, nil
-}
-func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
 	log.Print("query store: query Dataset request")
 
 	db, err := sql.Open("postgres", connectionstring)
@@ -53,6 +42,9 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 	}
 
 	return data, nil
+}
+func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
+	return nil, nil
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
