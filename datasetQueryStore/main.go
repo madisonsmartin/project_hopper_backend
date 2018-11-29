@@ -36,50 +36,50 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	//sql := "SELECT * FROM dataset.datas WHERE VERSION = " + "'" + data.Version + "'"
 	log.Println("executing: ", sql)
 
-	if resp, err := db.Query(
-		sql); err != nil {
+	resp, err := db.Query(sql)
+	if err != nil {
 		log.Fatal("Failed to persist data to db", err)
 	} else {
 		log.Println("Queried dataset from db: ", resp)
 	}
 
-	defer rows.Close()
+	defer resp.Close()
 
 	//for row := range rows.Next(){
-		for resp.Next() {
-			err := resp.Scan(&data.Name, &data.Version)
-			if err != nil {
-				log.Fatal(err)
-			}
-			//pb.Dataset{data.Name, data.Version}
-			log.Println(data.Name, data.Version)
-		}
-		err = resp.Err()
+	for resp.Next() {
+		err := resp.Scan(&data.Name, &data.Version)
 		if err != nil {
 			log.Fatal(err)
 		}
-	
+		//TODO instanciate a new object pb.Dataset{} put in data and return
+		log.Println(data.Name, data.Version)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return resp, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
-	
+
 	//TODO: change to match datasets
 	/*if rows == nil {
-		return nil, errors.New("No Dataset Named " + *name)
-}
+			return nil, errors.New("No Dataset Named " + *name)
+	}
 
-datasets := []*dspb.MultipuleDatasets{}
-for rows.Next() {
-		dataset := new(dataset)
-		err = rows.Scan(&data.Name,
-				&data.Version,
-				&data.Id)
-		if err != nil {
-				panic(err)
-		}
-		datasets = append(products, product)
-}
-return products, nil*/
-return nil, nil
+	datasets := []*dspb.MultipuleDatasets{}
+	for rows.Next() {
+			dataset := new(dataset)
+			err = rows.Scan(&data.Name,
+					&data.Version,
+					&data.Id)
+			if err != nil {
+					panic(err)
+			}
+			datasets = append(products, product)
+	}
+	return products, nil*/
+	return nil, nil
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
