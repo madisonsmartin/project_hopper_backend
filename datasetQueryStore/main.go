@@ -47,18 +47,19 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 
 	//for row := range rows.Next(){
 	for resp.Next() {
-		err := resp.Scan(&data.Name, &data.Version)
+		ds := dspb.Dataset{}
+		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.status, &ds.FileIDs)
 		if err != nil {
 			log.Fatal(err)
 		}
-		//TODO instanciate a new object pb.Dataset{} put in data and return
-		log.Println(data.Name, data.Version)
+		log.Println("returning" + ds)
+		return &ds, nil
 	}
 	err = resp.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return nil, nil
+	return &ds.Dataset{}, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
 
