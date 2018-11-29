@@ -31,7 +31,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	sql := "SELECT * FROM dataset.datas WHERE ID = " + data.Id
+	sql := "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
 	log.Println("executing: ", sql)
 
 	if resp, err := db.Exec(
