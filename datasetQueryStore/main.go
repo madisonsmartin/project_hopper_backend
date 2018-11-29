@@ -58,7 +58,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		if err != nil {
 			log.Fatal(err)
 		}
-	}
+	
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
 	
