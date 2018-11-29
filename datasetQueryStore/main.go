@@ -46,15 +46,15 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	defer rows.Close()
 
 	//for row := range rows.Next(){
-		for rows.Next() {
-			err := rows.Scan(&data.Name, &data.Version)
+		for resp.Next() {
+			err := resp.Scan(&data.Name, &data.Version)
 			if err != nil {
 				log.Fatal(err)
 			}
 			//pb.Dataset{data.Name, data.Version}
 			log.Println(data.Name, data.Version)
 		}
-		err = rows.Err()
+		err = resp.Err()
 		if err != nil {
 			log.Fatal(err)
 		}
