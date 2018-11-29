@@ -25,7 +25,7 @@ type store struct {
 func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: query dataset request")
 	return &dspb.Dataset{
-		Name:       data.Name + " but better",
+		Name:       data.Name + " but super better",
 		Version:    data.Version,
 		Id:         data.Id,
 		Status:     "created",
@@ -34,9 +34,25 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	}, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
-	log.Print("query store: query algorithm request")
+	log.Print("query store: query Dataset request")
 
-	return nil, nil
+	db, err := sql.Open("postgres", connectionstring)
+	defer db.Close()
+	if err != nil {
+		log.Fatal("error connecting to the database: ", err)
+	}
+
+	sql := "SELECT * FROM dataset.datas WHERE ID = " + data.ID
+	log.Println("executing: ", sql)
+
+	if resp, err := db.Exec(
+		sql); err != nil {
+		log.Fatal("Failed to persist data to db", err)
+	} else {
+		log.Println("queried dataset from db: ", resp)
+	}
+
+	return data, nil
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
