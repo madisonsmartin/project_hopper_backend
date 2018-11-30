@@ -48,7 +48,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	//for row := range rows.Next(){
 	for resp.Next() {
 		fileIDs := []uint8{}
-		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, fileIDs)
+		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDs)
 		log.Println("fileIDs", fileIDs)
 		if err != nil {
 			log.Fatal(err)
