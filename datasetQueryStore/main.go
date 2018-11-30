@@ -44,15 +44,14 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	}
 
 	defer resp.Close()
-
+	ds := dspb.Dataset{}
 	//for row := range rows.Next(){
 	for resp.Next() {
-		ds := dspb.Dataset{}
-		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.status, &ds.FileIDs)
+		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &ds.FileIDs)
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Println("returning" + ds)
+		log.Println("returning" + ds.Name)
 		return &ds, nil
 	}
 	err = resp.Err()
