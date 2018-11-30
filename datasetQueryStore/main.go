@@ -30,16 +30,16 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	if err != nil {
 		log.Fatal("error connecting to the database: ", err)
 	}
-
-	if data.id != nil {
-		sql := "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
+	var sqlString string
+	if data.Id != nil {
+		sqlString = "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
 	} else {
-		sql := "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'" + "AND Version = " + "'" + data.Version + "'"
+		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'" + "AND Version = " + "'" + data.Version + "'"
 	}
 
-	log.Println("executing: ", sql)
+	log.Println("executing: ", sqlString)
 
-	resp, err := db.Query(sql)
+	resp, err := db.Query(sqlSTring)
 	if err != nil {
 		log.Fatal("Failed to persist data to db", err)
 	} else {
