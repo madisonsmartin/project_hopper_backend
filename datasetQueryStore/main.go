@@ -31,9 +31,12 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	sql := "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
-	//sql := "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'"
-	//sql := "SELECT * FROM dataset.datas WHERE VERSION = " + "'" + data.Version + "'"
+	if data.id != nil {
+		sql := "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
+	} else {
+		sql := "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'" + "AND Version = " + "'" + data.Version + "'"
+	}
+
 	log.Println("executing: ", sql)
 
 	resp, err := db.Query(sql)
