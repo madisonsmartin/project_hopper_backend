@@ -31,7 +31,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		log.Fatal("error connecting to the database: ", err)
 	}
 	var sqlString string
-	if data.Id != nil {
+	if data.Id != "" {
 		sqlString = "SELECT * FROM dataset.datas WHERE ID = " + "'" + data.Id + "'"
 	} else {
 		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'" + "AND Version = " + "'" + data.Version + "'"
@@ -39,7 +39,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 
 	log.Println("executing: ", sqlString)
 
-	resp, err := db.Query(sqlSTring)
+	resp, err := db.Query(sqlString)
 	if err != nil {
 		log.Fatal("Failed to persist data to db", err)
 	} else {
