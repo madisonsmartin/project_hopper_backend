@@ -69,13 +69,46 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	return &dspb.Dataset{}, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
+	log.Print("query store: query Dataset request")
 
-	//TODO: change to match datasets
-	/*if rows == nil {
-			return nil, errors.New("No Dataset Named " + *name)
+	db, err := sql.Open("postgres", connectionstring)
+	defer db.Close()
+	if err != nil {
+		log.Fatal("error connecting to the database: ", err)
 	}
 
-	datasets := []*dspb.MultipuleDatasets{}
+	if rows == nil {
+		return nil, errors.New("No Dataset Named " + *name)
+	}
+
+	var sqlString string
+	if data.Name != "" {
+		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'"
+	}
+
+	defer resp.Close()
+	ds := dspb.Datasets{}
+	for resp.Next() {
+		fileIDsB := []uint8{}
+		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
+		for _, fid := range fileIDsB {
+			ds.FileIDs = append(ds.FileIDs, string(fid))
+		}
+
+		log.Println("fileIDs", ds.FileIDs)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println("returning " + ds.Name)
+		return &ds, nil
+	}
+	err = resp.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return &dspb.Datasets{}, nil
+
+	/*datasets := []*dspb.MultipuleDatasets{}
 	for rows.Next() {
 			dataset := new(dataset)
 			err = rows.Scan(&data.Name,
@@ -86,8 +119,8 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 			}
 			datasets = append(products, product)
 	}
-	return products, nil*/
-	return nil, nil
+	return datasets, nil
+	return nil, nil*/
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
@@ -128,8 +161,6 @@ func (s store) AssociateFile(ctx context.Context, pair *dspb.DatasetAndFile) (*d
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	//TODO: stringing together each element of the array rather than the entire string
-	//sql := `UPDATE dataset.datas SET fileIDs = (fileIDs,` + "'" + pair.File.Id + "'" + `)
 	sql := `UPDATE dataset.datas SET fileIDs = array_cat(fileIDs,` + "'" + pair.File.Id + "'" + `)
 	WHERE dataset.datas.id = ` + "'" + pair.Dataset.Id + "'"
 	log.Println("executing: ", sql)
