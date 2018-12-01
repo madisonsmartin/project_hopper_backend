@@ -152,7 +152,6 @@ func persistDatasetToQueryStore(cmd *dspb.CreateDatasetCommand) error {
 	return nil
 }
 
-//TODO
 func createFileCreatedEvent(createCmd *dspb.AssociateFileCommand) error {
 	conn, err := grpc.Dial(eventstoreURI, grpc.WithInsecure())
 	if err != nil {
