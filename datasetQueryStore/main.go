@@ -130,8 +130,8 @@ func (s store) AssociateFile(ctx context.Context, pair *dspb.DatasetAndFile) (*d
 
 	//TODO: stringing together each element of the array rather than the entire string
 	//sql := `UPDATE dataset.datas SET fileIDs = (fileIDs,` + "'" + pair.File.Id + "'" + `)
-	sql := "UPDATE dataset.datas SET fileIDs = " + "'" + pair.File.Id + "'"
-	"WHERE dataset.datas.id = " + "'" + pair.Dataset.Id + "'"
+	sql := `UPDATE dataset.datas SET fileIDs = array_append(fileIDs,` + "'" + pair.File.Id + "'" + `)
+	WHERE dataset.datas.id = ` + "'" + pair.Dataset.Id + "'"
 	log.Println("executing: ", sql)
 
 	if resp, err := db.Exec(sql); err != nil {
