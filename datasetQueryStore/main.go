@@ -48,14 +48,12 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 
 	defer resp.Close()
 	ds := dspb.Dataset{}
-	var strFileIds []string
 	for resp.Next() {
 		fileIDsB := []uint8{}
 		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
 		for _, fid := range fileIDsB {
-			strFileIds = append(strFileIds, string(fid))
+			ds.FileIDs = append(ds.FileIDs, string(fid))
 		}
-		ds.FileIDs = strings.Join(strFileIds, "")
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
