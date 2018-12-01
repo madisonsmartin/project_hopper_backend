@@ -55,7 +55,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		for _, fid := range fileIDsB {
 			strFileIds = append(strFileIds, string(fid))
 		}
-		ds.FileIDs = strings.Join(string(fid), "")
+		ds.FileIDs = strings.Join(strFileIds, "")
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
