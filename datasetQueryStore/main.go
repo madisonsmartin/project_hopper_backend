@@ -55,7 +55,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		for _, fid := range fileIDsB {
 			ds.FileIDs = append(ds.FileIDs, string(fid))
 		}
-		log.Println("fileIDs ", fileIDsB)
+		log.Println("fileIDs", fileIDsB)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -130,8 +130,8 @@ func (s store) AssociateFile(ctx context.Context, pair *dspb.DatasetAndFile) (*d
 
 	//TODO: stringing together each element of the array rather than the entire string
 	//sql := `UPDATE dataset.datas SET fileIDs = (fileIDs,` + "'" + pair.File.Id + "'" + `)
-	sql := `UPDATE dataset.datas SET fileIDs = concat(fileIDs, pair.File.Id)
-	WHERE dataset.datas.id = ` + "'" + pair.Dataset.Id + "'"
+	sql := "UPDATE dataset.datas SET fileIDs = " + "'" + pair.File.Id + "'"
+	"WHERE dataset.datas.id = " + "'" + pair.Dataset.Id + "'"
 	log.Println("executing: ", sql)
 
 	if resp, err := db.Exec(sql); err != nil {
