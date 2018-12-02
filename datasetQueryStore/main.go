@@ -53,7 +53,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		fileIDsB := []uint8{}
 		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
 		for _, fid := range fileIDsB {
-			ds.FileIDs = append(FileIDs, (strconv.Itoa(int(fid))))
+			ds.FileIDs = append(ds.FileIDs, (strconv.Itoa(int(fid))))
 		}
 
 		log.Println("fileIDs", ds.FileIDs)
