@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 	"strings"
 
 	"google.golang.org/grpc"
@@ -53,7 +52,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		fileIDsB := []uint8{}
 		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
 		for _, fid := range fileIDsB {
-			ds.FileIDs = append(ds.FileIDs, (string(fid))
+			ds.FileIDs = append(ds.FileIDs, (string(fid)))
 		}
 
 		log.Println("fileIDs", ds.FileIDs)
