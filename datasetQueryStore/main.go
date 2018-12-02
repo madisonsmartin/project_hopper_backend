@@ -69,7 +69,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	return &dspb.Dataset{}, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
-	log.Print("query store: query Dataset request")
+	/*log.Print("query store: query Dataset request")
 
 	db, err := sql.Open("postgres", connectionstring)
 	defer db.Close()
@@ -77,13 +77,16 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	if rows == nil {
-		return nil, errors.New("No Dataset Named " + *name)
-	}
-
 	var sqlString string
 	if data.Name != "" {
 		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'"
+	}
+
+	resp, err := db.Query(sqlString)
+	if err != nil {
+		log.Fatal("Failed to persist data to db", err)
+	} else {
+		log.Println("Queried dataset from db: ", resp)
 	}
 
 	defer resp.Close()
@@ -119,8 +122,8 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 			}
 			datasets = append(products, product)
 	}
-	return datasets, nil
-	return nil, nil*/
+	return datasets, nil*/
+	return nil, nil
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
