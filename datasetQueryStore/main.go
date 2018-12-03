@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 	"strings"
 
 	"google.golang.org/grpc"
@@ -56,10 +55,9 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
 		for _, fid := range fileIDsB {
 			fileIDsS = append(fileIDsS, (string(fid)))
-			//longStr := strings.Join(fileIDsS, "")
-			//ds.FileIDs = append(ds.FileIDs, strings.Join(fileIDsS, "") /*longStr[2:len(longStr)-2]*/)
-			ds.FileIDs = append(ds.FileIDs, (strconv.Itoa(int(fid))))
 		}
+		longStr := strings.Join(fileIDsS, "")
+		ds.FileIDs = append(ds.FileIDs, longStr[2:len(longStr)-2])
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
