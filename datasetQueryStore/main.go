@@ -58,7 +58,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		}
 		//This just returns one long string. Does not handle multiple IDs
 		//longStr := strings.Join(fileIDsS, "")
-		//ds.FileIDs = append(ds.FileIDs, longStr[2:len(longStr)-2])
+		ds.FileIDs = append(ds.FileIDs, (fileIDs, ""))
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
@@ -169,7 +169,7 @@ func (s store) AssociateFile(ctx context.Context, pair *dspb.DatasetAndFile) (*d
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	sql := `UPDATE dataset.datas SET fileIDs = array_cat(fileIDs,` + "'" + pair.File.Id + "'" + `)
+	sql := `UPDATE dataset.datas SET fileIDs = array_append(fileIDs,` + "'" + pair.File.Id + "'" + `)
 	WHERE dataset.datas.id = ` + "'" + pair.Dataset.Id + "'"
 	log.Println("executing: ", sql)
 
