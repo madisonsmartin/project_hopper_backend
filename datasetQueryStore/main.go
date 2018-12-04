@@ -56,6 +56,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		for _, fid := range fileIDsB {
 			fileIDsS = append(fileIDsS, (string(fid)))
 		}
+		//This just returns one long string. Does not handle multiple IDs
 		longStr := strings.Join(fileIDsS, "")
 		ds.FileIDs = append(ds.FileIDs, longStr[2:len(longStr)-2])
 
