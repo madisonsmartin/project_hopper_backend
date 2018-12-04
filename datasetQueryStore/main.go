@@ -169,7 +169,7 @@ func (s store) AssociateFile(ctx context.Context, pair *dspb.DatasetAndFile) (*d
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	sql := `UPDATE dataset.datas SET fileIDs = array_append(fileIDs,` + "'" + pair.File.Id + "'" + `)
+	sql := `UPDATE dataset.datas SET fileIDs = array_cat(fileIDs,` + "'" + pair.File.Id + "'" + `)
 	WHERE dataset.datas.id = ` + "'" + pair.Dataset.Id + "'"
 	log.Println("executing: ", sql)
 
