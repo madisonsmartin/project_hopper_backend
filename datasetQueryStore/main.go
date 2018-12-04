@@ -58,7 +58,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		}
 		//This just returns one long string. Does not handle multiple IDs
 		//longStr := strings.Join(fileIDsS, "")
-		ds.FileIDs = append(ds.FileIDs, (fileIDs, ""))
+		ds.FileIDs = append(ds.FileIDs, strings.Join(fileIDs, ""))
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
