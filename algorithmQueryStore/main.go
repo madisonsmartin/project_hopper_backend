@@ -32,9 +32,9 @@ func (s store) GetAlgorithm(ctx context.Context, algo *pb.Algorithm) (*pb.Algori
 	}
 	var sqlString string
 	if data.Id != "" {
-		sqlString = "SELECT * FROM dataset.datas WHERE ID = " + "'" + algo.Id + "'"
+		sqlString = "SELECT * FROM algorithm.algo WHERE ID = " + "'" + algo.Id + "'"
 	} else {
-		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + algo.Name + "'" + "AND Version = " + "'" + algo.Version + "'"
+		sqlString = "SELECT * FROM algorithm.algo WHERE NAME = " + "'" + algo.Name + "'" + "AND Version = " + "'" + algo.Version + "'"
 	}
 
 	log.Println("executing: ", sqlString)
