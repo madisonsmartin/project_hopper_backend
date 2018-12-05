@@ -31,7 +31,7 @@ func (s store) GetAlgorithm(ctx context.Context, algo *pb.Algorithm) (*pb.Algori
 		log.Fatal("error connecting to the database: ", err)
 	}
 	var sqlString string
-	if data.Id != "" {
+	if algo.Id != "" {
 		sqlString = "SELECT * FROM algorithm.algo WHERE ID = " + "'" + algo.Id + "'"
 	} else {
 		sqlString = "SELECT * FROM algorithm.algo WHERE NAME = " + "'" + algo.Name + "'" + "AND Version = " + "'" + algo.Version + "'"
@@ -81,8 +81,6 @@ func (s store) GetAlgorithm(ctx context.Context, algo *pb.Algorithm) (*pb.Algori
 }
 func (s store) GetAlgorithms(ctx context.Context, algos *pb.Algorithm) (*pb.MultipleAlgorithms, error) {
 	log.Print("query store: query algorithm request")
-
-
 
 	return nil, nil
 }
