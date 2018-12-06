@@ -64,14 +64,14 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		var index int
 		var j int
 		for _, lS := range longString {
-			if longString[j] == "{" || longString[j] == "}" {
+			if lS == "{" || lS == "}" {
 				j++
-			} else if longString[j] == "," {
+			} else if lS == "," {
 				ds.FileIDs = append(ds.FileIDs, fileIDsStr[index])
 				index++
 				j++
 			} else {
-				fileIDsStr[index] = append(fileIDsStr, longString[j])
+				fileIDsStr[index] = append(fileIDsStr, lS)
 				j++
 			}
 		}
