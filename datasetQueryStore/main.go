@@ -57,6 +57,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		//ds.FileIDs = ds.FileIDs[2 : len(ds.FileIDs)-2]
 
 		longString := []string{}
+		fileIDsStr := []string{}
 		for _, fid := range fileIDsB {
 			longString = append(longString, string(fid))
 		}
@@ -66,10 +67,11 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 			if longString[j] == "{" || longString[j] == "}" {
 				j++
 			} else if longString[j] == "," {
+				ds.FileIDs = append(ds.FileIDs, fileIDsStr[index])
 				index++
 				j++
 			} else {
-				ds.FileIDs = append(ds.FileIDs[index], longString)
+				fileIDsStr[index] = append(fileIDsStr, longString)
 				j++
 			}
 		}
