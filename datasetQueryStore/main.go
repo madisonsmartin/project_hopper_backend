@@ -89,7 +89,7 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		log.Println("Queried dataset from db: ", resp)
 	}
 	defer resp.Close()
-	var datasets []dspb.datasets
+	var datasets []dspb.Datasets
 	for resp.Next() {
 		ds := dspb.Dataset{}
 		fileIDsB := []uint8{}
@@ -109,7 +109,7 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		log.Fatal(err)
 	}
 	multipileDatasets := dspb.MultipleDatasets{}
-	multipileDatasets.datasets = datasets
+	multipileDatasets.Datasets = datasets
 
 	return datasets, nil
 }
