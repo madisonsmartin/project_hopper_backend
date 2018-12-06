@@ -102,7 +102,7 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		if err != nil {
 			log.Fatal(err)
 		}
-		datasets = append(datasets, ds)
+		datasets = append(datasets, datasets(ds))
 	}
 	err = resp.Err()
 	if err != nil {
