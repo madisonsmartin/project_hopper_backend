@@ -71,7 +71,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 				index++
 				j++
 			} else {
-				fileIDsStr[index] = append(fileIDsStr, string(longString))
+				fileIDsStr[index] = append(fileIDsStr, longString[j])
 				j++
 			}
 		}
