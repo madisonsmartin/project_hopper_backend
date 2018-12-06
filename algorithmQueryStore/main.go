@@ -32,16 +32,16 @@ func (s store) GetAlgorithm(ctx context.Context, algo *pb.Algorithm) (*pb.Algori
 	}
 	var sqlString string
 	if algo.Id != "" {
-		sqlString = "SELECT * FROM algorithm.algo WHERE ID = " + "'" + algo.Id + "'"
+		sqlString = "SELECT * FROM algorithm.algos WHERE ID = " + "'" + algo.Id + "'"
 	} else {
-		sqlString = "SELECT * FROM algorithm.algo WHERE NAME = " + "'" + algo.Name + "'" + "AND Version = " + "'" + algo.Version + "'"
+		sqlString = "SELECT * FROM algorithm.algos WHERE NAME = " + "'" + algo.Name + "'" + "AND Version = " + "'" + algo.Version + "'"
 	}
 
 	log.Println("executing: ", sqlString)
 
 	resp, err := db.Query(sqlString)
 	if err != nil {
-		log.Fatal("Failed to persist algorithm to db", err)
+		log.Fatal("Failed to get algorithm to db", err)
 	} else {
 		log.Println("Queried algorithm from db: ", resp)
 	}
