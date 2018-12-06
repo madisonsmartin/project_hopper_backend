@@ -36,6 +36,9 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	} else {
 		sqlString = "SELECT * FROM dataset.datas WHERE NAME = " + "'" + data.Name + "'" + "AND Version = " + "'" + data.Version + "'"
 	}
+	if data.name != "" && data.id == "" && data.version == "" {
+		GetDatasets(data)
+	}
 
 	log.Println("executing: ", sqlString)
 
