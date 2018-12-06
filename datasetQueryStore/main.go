@@ -69,7 +69,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	}
 	return &dspb.Dataset{}, nil
 }
-func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) ([]*dspb.MultipleDatasets, error) {
+func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
 	log.Print("query store: query Dataset request")
 
 	db, err := sql.Open("postgres", connectionstring)
@@ -103,7 +103,7 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) ([]*dspb.Mul
 		if err != nil {
 			log.Fatal(err)
 		}
-		datasets.Datasets = append(datasets.Datasets, ds)
+		datasets = append(datasets, ds)
 	}
 	err = resp.Err()
 	if err != nil {
