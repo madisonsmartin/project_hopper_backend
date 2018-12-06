@@ -89,9 +89,9 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		log.Println("Queried dataset from db: ", resp)
 	}
 	defer resp.Close()
-	datasets := []*dspb.MultipuleDatasets{}
+	datasets := []*dspb.MultipleDatasets{}
 	for resp.Next() {
-		ds := dspb.Datasets{}
+		ds := dspb.Dataset{}
 		fileIDsB := []uint8{}
 		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
 		for _, fid := range fileIDsB {
