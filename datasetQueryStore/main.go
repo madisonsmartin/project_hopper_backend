@@ -57,7 +57,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 		//ds.FileIDs = ds.FileIDs[2 : len(ds.FileIDs)-2]
 
 		longString := []string{}
-		fileIDsStr := []string{}
+		var fileIDsStr []string
 		for _, fid := range fileIDsB {
 			longString = append(longString, string(fid))
 		}
