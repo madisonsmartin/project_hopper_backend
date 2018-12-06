@@ -50,11 +50,31 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	ds := dspb.Dataset{}
 	for resp.Next() {
 		fileIDsB := []uint8{}
-		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &fileIDsB)
+		err := resp.Scan(&ds.Id, &ds.Name, &ds.Version, &ds.Status, &FileIDsB)
+		//for _, fid := range fileIDsB {
+		//	ds.FileIDs = append(ds.FileIDs, (string(fid)))
+		//}
+		//ds.FileIDs = ds.FileIDs[2 : len(ds.FileIDs)-2]
+
+		longString := []string{}
 		for _, fid := range fileIDsB {
-			ds.FileIDs = append(ds.FileIDs, (string(fid)))
+			longString = append(longString, string(fid))
 		}
-		ds.FileIDs = ds.FileIDs[2 : len(ds.FileIDs)-2]
+		var index int
+		var j int
+		for _, lS := range longString {
+			if (longString[j] == "{" || longString[j] == "}") {
+				j++
+			}
+			else if (longString[j] == ","){
+				index++
+				j++
+			}
+			else{
+				ds.FileIDs = append(ds.FileIDs[index], longString)
+				j++
+			}
+		}
 
 		log.Println("fileIDs", ds.FileIDs)
 		if err != nil {
