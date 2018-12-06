@@ -70,7 +70,7 @@ func (s store) GetDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Datase
 	return &dspb.Dataset{}, nil
 }
 func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.MultipleDatasets, error) {
-	log.Print("query store: query Dataset request")
+	/*log.Print("query store: query Dataset request")
 
 	db, err := sql.Open("postgres", connectionstring)
 	defer db.Close()
@@ -110,7 +110,8 @@ func (s store) GetDatasets(ctx context.Context, data *dspb.Dataset) (*dspb.Multi
 		log.Fatal(err)
 	}
 
-	return datasets, nil
+	return datasets, nil*/
+	return nil, nil
 }
 func (s store) CreateDataset(ctx context.Context, data *dspb.Dataset) (*dspb.Dataset, error) {
 	log.Print("query store: create Dataset request")
